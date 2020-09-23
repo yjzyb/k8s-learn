@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-configmap
+data:
+  a-key: "This is a value "
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-with-configmap
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+    env:
+      - name: onekey
+        valueFrom:
+          configMapKeyRef:
+            name: nginx-configmap
+            key: a-key
